@@ -1,0 +1,6 @@
+# api-getway
+*/dist
+*/node_modules
+*/build
+*/coverage
+*/.env
