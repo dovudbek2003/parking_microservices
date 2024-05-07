@@ -1,34 +1,36 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Inject } from '@nestjs/common';
 import { ParkService } from './park.service';
 import { CreateParkDto } from './dto/create-park.dto';
 import { UpdateParkDto } from './dto/update-park.dto';
+import { GrpcMethod, Payload } from '@nestjs/microservices';
+import { IParkService } from './interfaces/park.service';
 
 @Controller('park')
 export class ParkController {
-  constructor(private readonly parkService: ParkService) {}
+  constructor(@Inject('IParkService') private readonly parkService: IParkService) { }
 
-  @Post()
-  create(@Body() createParkDto: CreateParkDto) {
+  @GrpcMethod('ParkService', 'Create')
+  create(@Payload() createParkDto: CreateParkDto) {
     return this.parkService.create(createParkDto);
   }
 
-  @Get()
+  @GrpcMethod('ParkService', 'FindAll')
   findAll() {
     return this.parkService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.parkService.findOne(+id);
+  @GrpcMethod('ParkService', 'FindOne')
+  findOne(@Payload() { id }: { id: number }) {
+    return this.parkService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateParkDto: UpdateParkDto) {
-    return this.parkService.update(+id, updateParkDto);
+  @GrpcMethod('ParkService', 'Update')
+  update(@Payload() updateParkDto: UpdateParkDto) {
+    return this.parkService.update(updateParkDto.id, updateParkDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.parkService.remove(+id);
+  @GrpcMethod('ParkService', 'Remove')
+  remove(@Payload() { id }: { id: number }) {
+    return this.parkService.remove(id);
   }
 }

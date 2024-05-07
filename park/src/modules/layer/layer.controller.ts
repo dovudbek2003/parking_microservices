@@ -1,34 +1,42 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Inject } from '@nestjs/common';
 import { LayerService } from './layer.service';
 import { CreateLayerDto } from './dto/create-layer.dto';
 import { UpdateLayerDto } from './dto/update-layer.dto';
+import { GrpcMethod, Payload } from '@nestjs/microservices';
+import { ILayerService } from './interfaces/layer.service';
+import { IParkService } from '../park/interfaces/park.service';
 
 @Controller('layer')
 export class LayerController {
-  constructor(private readonly layerService: LayerService) {}
+  constructor(
+    @Inject('ILayerService') private readonly layerService: ILayerService,
+    @Inject('IParkService') private readonly parkService: IParkService
+  ) { }
 
-  @Post()
-  create(@Body() createLayerDto: CreateLayerDto) {
-    return this.layerService.create(createLayerDto);
+  @GrpcMethod('LayerService', 'Create')
+  async create(@Payload() createLayerDto: CreateLayerDto) {
+    const { data: foundPark } = await this.parkService.findOne(createLayerDto.parkId)
+    return this.layerService.create(createLayerDto, foundPark);
   }
 
-  @Get()
-  findAll() {
+  @GrpcMethod('LayerService', 'FindAll')
+  async findAll() {
     return this.layerService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.layerService.findOne(+id);
+  @GrpcMethod('LayerService', 'FindOne')
+  async findOne(@Payload() { id }: { id: number }) {
+    return this.layerService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateLayerDto: UpdateLayerDto) {
-    return this.layerService.update(+id, updateLayerDto);
+  @GrpcMethod('LayerService', 'Update')
+  async update(@Payload() updateLayerDto: UpdateLayerDto) {
+    const { data: foundPark } = await this.parkService.findOne(updateLayerDto.parkId)
+    return this.layerService.update(updateLayerDto.id, updateLayerDto, foundPark);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.layerService.remove(+id);
+  @GrpcMethod('LayerService', 'Remove')
+  async remove(@Payload() { id }: { id: number }) {
+    return this.layerService.remove(id);
   }
 }

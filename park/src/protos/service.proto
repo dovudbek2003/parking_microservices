@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+package service;
+
+service ServiceService {
+    rpc Create(CreateServiceDto) returns (ResponseData){}
+    rpc FindAll(Empty) returns (ResponseDataFindAll) {}
+    rpc FindOne(Id) returns (ResponseData) {}
+    rpc Update(UpdateServiceDto) returns (ResponseData) {}
+    rpc Remove(Id) returns (ResponseData) {}
+}
+
+
+// Entity
+message Park {
+    int32 id = 1;
+    string name = 2;
+    int32 owner = 3;
+    int32 image = 4;
+    string createdAt = 5;
+    string lastUpdatedAt = 6;
+}
+
+message Tariff {
+    int32 id = 1;
+    string name = 2;
+    Park park = 3;
+    int32 price = 4;
+    int32 time = 5;
+    string createdAt = 6;
+    string lastUpdatedAt = 7;
+}
+
+message Service{
+    int32 id = 1;
+    int32 parkId =2;
+    Park park = 3;
+    int32 userId = 4;
+    string startedAt = 5;
+    string endedAt = 6;
+    int32 price = 7;
+    int32 tariffId = 8;
+    Tariff tariff = 9;
+    string createdAt = 10;
+    string lastUpdatedAt = 11;
+}
+
+// All agruments
+message Empty {}
+message Id {
+    int32 id = 1;
+}
+
+
+// ParkService arguments
+message CreateServiceDto {
+    int32 parkId = 1;
+    int32 userId = 2;
+    string startedAt = 3;
+    string endedAt = 4;
+    int32 price = 5;
+    int32 tariffId = 6;
+}
+
+message UpdateServiceDto {
+    int32 id = 1;
+    int32 parkId = 2;
+    int32 userId = 3;
+    string startedAt = 4;
+    string endedAt = 5;
+    int32 price = 6;
+    int32 tariffId = 7;
+}
+
+// Return
+message ResponseData {
+    string message = 1;
+    int32 statusCode = 2;
+    Service data = 3;
+}
+
+message ResponseDataFindAll {
+    string message = 1;
+    int32 statusCode = 2;
+    repeated Service data = 3;
+}

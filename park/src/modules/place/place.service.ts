@@ -1,26 +1,59 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreatePlaceDto } from './dto/create-place.dto';
 import { UpdatePlaceDto } from './dto/update-place.dto';
+import { IPlaceService } from './interfaces/place.service';
+import { ResponseData } from 'src/lib/response-data';
+import { Place } from './entities/place.entity';
+import { Layer } from '../layer/entities/layer.entity';
+import { IPlaceRepository } from './interfaces/place.repository';
+import { PlaceNotFound } from './exception/place.exception';
 
 @Injectable()
-export class PlaceService {
-  create(createPlaceDto: CreatePlaceDto) {
-    return 'This action adds a new place';
+export class PlaceService implements IPlaceService {
+  constructor(@Inject('IPlaceRepository') private placeRepository: IPlaceRepository) { }
+
+  // CREATE
+  async create(createPlaceDto: CreatePlaceDto, foundLayer: Layer): Promise<ResponseData<Place>> {
+    const newPlace = new Place()
+    newPlace.name = createPlaceDto.name;
+    newPlace.price = createPlaceDto.price;
+    newPlace.layer = foundLayer;
+
+    const createdPlace = await this.placeRepository.create(newPlace);
+    return new ResponseData<Place>('create', 201, createdPlace)
   }
 
-  findAll() {
-    return `This action returns all place`;
+  // READ
+  async findAll(): Promise<ResponseData<Place[]>> {
+    const places = await this.placeRepository.findAll();
+    return new ResponseData<Array<Place>>('get all', 200, places)
+  }
+  async findOne(id: number): Promise<ResponseData<Place>> {
+    const place = await this.placeRepository.findOne(id);
+    if (!place) {
+      throw new PlaceNotFound()
+    }
+
+    return new ResponseData<Place>('get one', 200, place)
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} place`;
+  // UPDATE
+  async update(id: number, updatePlaceDto: CreatePlaceDto, foundLayer: Layer): Promise<ResponseData<Place>> {
+    const { data: foundPlace } = await this.findOne(id)
+    foundPlace.name = updatePlaceDto.name ? updatePlaceDto.name : foundPlace.name;
+    foundPlace.price = updatePlaceDto.price ? updatePlaceDto.price : foundPlace.price;
+    if (foundLayer) {
+      foundPlace.layer = foundLayer;
+    }
+
+    const updatedPlace = await this.placeRepository.update(foundPlace);
+    return new ResponseData<Place>('update', 200, updatedPlace)
   }
 
-  update(id: number, updatePlaceDto: UpdatePlaceDto) {
-    return `This action updates a #${id} place`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} place`;
+  // DELETE
+  async remove(id: number): Promise<ResponseData<Place>> {
+    await this.findOne(id)
+    const deletedPlace = await this.placeRepository.remove(id);
+    return new ResponseData<Place>('delete', 200, deletedPlace)
   }
 }

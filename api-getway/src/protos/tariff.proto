@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+package tariff;
+
+service TariffService {
+    rpc Create(CreateTariffDto) returns (ResponseData){}
+    rpc FindAll(Empty) returns (ResponseDataFindAll) {}
+    rpc FindOne(Id) returns (ResponseData) {}
+    rpc Update(UpdateTariffDto) returns (ResponseData) {}
+    rpc Remove(Id) returns (ResponseData) {}
+}
+
+
+// Entity
+message Park {
+    int32 id = 1;
+    string name = 2;
+    int32 owner = 3;
+    int32 image = 4;
+    string createdAt = 5;
+    string lastUpdatedAt = 6;
+}
+
+message Tariff {
+    int32 id = 1;
+    string name = 2;
+    Park park = 3;
+    int32 price = 4;
+    int32 time = 5;
+    int32 parkId = 6;
+    string createdAt = 7;
+    string lastUpdatedAt = 8;
+}
+
+// All agruments
+message Empty {}
+message Id {
+    int32 id = 1;
+}
+
+
+// ParkService arguments
+message CreateTariffDto {
+    string name = 1;
+    int32 parkId = 2;
+    int32 price = 3;
+    int32 time = 4;
+}
+
+message UpdateTariffDto {
+    int32 id = 1;
+    string name = 2;
+    int32 parkId = 3;
+    int32 price = 4;
+    int32 time = 5;
+}
+
+// Return
+message ResponseData {
+    string message = 1;
+    int32 statusCode = 2;
+    Tariff data = 3;
+}
+
+message ResponseDataFindAll {
+    string message = 1;
+    int32 statusCode = 2;
+    repeated Tariff data = 3;
+}

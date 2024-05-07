@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+package place;
+
+service PlaceService {
+    rpc Create(CreatePlaceDto) returns (ResponseData){}
+    rpc FindAll(Empty) returns (ResponseDataFindAll) {}
+    rpc FindOne(Id) returns (ResponseData) {}
+    rpc Update(UpdatePlaceDto) returns (ResponseData) {}
+    rpc Remove(Id) returns (ResponseData) {}
+}
+
+
+// Entity
+message Park {
+    int32 id = 1;
+    string name = 2;
+    int32 owner = 3;
+    int32 image = 4;
+    string createdAt = 5;
+    string lastUpdatedAt = 6;
+}
+
+message Layer {
+    int32 id = 1;
+    string name = 2;
+    int32 floor = 3;
+    Park park  = 4;
+    string createdAt = 5;
+    string lastUpdatedAt = 6;
+}
+
+message Place {
+    int32 id = 1;
+    string name = 2;
+    int32 price = 3;
+    int32 layerId = 4;
+    Layer layer = 5;
+    string createdAt = 6;
+    string lastUpdatedAt = 7;
+}
+
+// All agruments
+message Empty {}
+message Id {
+    int32 id = 1;
+}
+
+
+// ParkService arguments
+message CreatePlaceDto {
+    string name = 1;
+    int32 layerId = 2;
+    int32 price = 3;
+}
+
+message UpdatePlaceDto {
+    int32 id = 1;
+    string name = 2;
+    int32 layerId = 3;
+    int32 price = 4;
+}
+
+// Return
+message ResponseData {
+    string message = 1;
+    int32 statusCode = 2;
+    Place data = 3;
+}
+
+message ResponseDataFindAll {
+    string message = 1;
+    int32 statusCode = 2;
+    repeated Place data = 3;
+}

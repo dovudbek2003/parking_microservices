@@ -1,34 +1,41 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { TariffService } from './tariff.service';
+import { Controller, Inject } from '@nestjs/common';
 import { CreateTariffDto } from './dto/create-tariff.dto';
 import { UpdateTariffDto } from './dto/update-tariff.dto';
+import { ITariffService } from './interfaces/tariff.service';
+import { IParkService } from '../park/interfaces/park.service';
+import { GrpcMethod, Payload } from '@nestjs/microservices';
 
 @Controller('tariff')
 export class TariffController {
-  constructor(private readonly tariffService: TariffService) {}
+  constructor(
+    @Inject('ITariffService') private readonly tariffService: ITariffService,
+    @Inject('IParkService') private readonly parkService: IParkService,
+  ) { }
 
-  @Post()
-  create(@Body() createTariffDto: CreateTariffDto) {
-    return this.tariffService.create(createTariffDto);
+  @GrpcMethod('TariffService', 'Create')
+  async create(@Payload() createTariffDto: CreateTariffDto) {
+    const { data: foundPark } = await this.parkService.findOne(createTariffDto.parkId);
+    return this.tariffService.create(createTariffDto, foundPark);
   }
 
-  @Get()
-  findAll() {
+  @GrpcMethod('TariffService', 'FindAll')
+  async findAll() {
     return this.tariffService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.tariffService.findOne(+id);
+  @GrpcMethod('TariffService', 'FindOne')
+  async findOne(@Payload() { id }: { id: number }) {
+    return this.tariffService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTariffDto: UpdateTariffDto) {
-    return this.tariffService.update(+id, updateTariffDto);
+  @GrpcMethod('TariffService', 'Update')
+  async update(@Payload() updateTariffDto: UpdateTariffDto) {
+    const { data: foundPark } = await this.parkService.findOne(updateTariffDto.parkId);
+    return this.tariffService.update(updateTariffDto.id, updateTariffDto, foundPark);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.tariffService.remove(+id);
+  @GrpcMethod('TariffService', 'Remove')
+  async remove(@Payload() { id }: { id: number }) {
+    return this.tariffService.remove(id);
   }
 }

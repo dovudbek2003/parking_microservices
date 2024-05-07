@@ -1,34 +1,41 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { PlaceService } from './place.service';
+import { Controller, Inject } from '@nestjs/common';
 import { CreatePlaceDto } from './dto/create-place.dto';
 import { UpdatePlaceDto } from './dto/update-place.dto';
+import { IPlaceService } from './interfaces/place.service';
+import { GrpcMethod, Payload } from '@nestjs/microservices';
+import { ILayerService } from '../layer/interfaces/layer.service';
 
 @Controller('place')
 export class PlaceController {
-  constructor(private readonly placeService: PlaceService) {}
+  constructor(
+    @Inject('IPlaceService') private readonly placeService: IPlaceService,
+    @Inject('ILayerService') private readonly layerService: ILayerService
+  ) { }
 
-  @Post()
-  create(@Body() createPlaceDto: CreatePlaceDto) {
-    return this.placeService.create(createPlaceDto);
+  @GrpcMethod('PlaceService', 'Create')
+  async create(@Payload() createPlaceDto: CreatePlaceDto) {
+    const { data: foundLayer } = await this.layerService.findOne(createPlaceDto.layerId)
+    return this.placeService.create(createPlaceDto, foundLayer);
   }
 
-  @Get()
-  findAll() {
+  @GrpcMethod('PlaceService', 'FindAll')
+  async findAll() {
     return this.placeService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.placeService.findOne(+id);
+  @GrpcMethod('PlaceService', 'FindOne')
+  async findOne(@Payload() { id }: { id: number }) {
+    return this.placeService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePlaceDto: UpdatePlaceDto) {
-    return this.placeService.update(+id, updatePlaceDto);
+  @GrpcMethod('PlaceService', 'Update')
+  async update(@Payload() updatePlaceDto: UpdatePlaceDto) {
+    const { data: foundLayer } = await this.layerService.findOne(updatePlaceDto.layerId)
+    return this.placeService.update(updatePlaceDto.id, updatePlaceDto, foundLayer);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.placeService.remove(+id);
+  @GrpcMethod('PlaceService', 'Remove')
+  async remove(@Payload() { id }: { id: number }) {
+    return this.placeService.remove(id);
   }
 }
