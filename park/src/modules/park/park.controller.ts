@@ -21,6 +21,7 @@ export class ParkController {
 
   @GrpcMethod('ParkService', 'FindOne')
   findOne(@Payload() { id }: { id: number }) {
+    console.log('id =>', id)
     return this.parkService.findOne(id);
   }
 

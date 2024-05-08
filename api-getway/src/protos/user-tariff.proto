@@ -1,0 +1,81 @@
+syntax = "proto3";
+
+package userTariff;
+
+service UserTariffService {
+    rpc Create(CreateUserTariffDto) returns (ResponseData){}
+    rpc FindAll(Empty) returns (ResponseDataFindAll) {}
+    rpc FindOne(Id) returns (ResponseData) {}
+    rpc Update(UpdateUserTariffDto) returns (ResponseData) {}
+    rpc Remove(Id) returns (ResponseData) {}
+}
+
+
+//  Entity
+message User {
+    int32 id = 1;
+    string phone = 2;
+    string password = 3;
+    string role = 4;
+    int32 parkId = 5;
+    string createdAt = 6;
+    string lastUpdatedAt = 7;
+}
+
+message UserTariff {
+    int32 id = 1;
+    int32 userId = 2;
+    User user = 3;
+    int32 tariffId = 4;
+    string startedAt = 5;
+    string endedAt = 6;
+    string createdAt = 7;
+    string lastUpdatedAt = 8;
+}
+
+// All agruments
+message Empty {}
+message Id {
+    int32 id = 1;
+}
+
+
+// ParkService arguments
+message FoundTariff {
+    int32 id = 1;
+    string name = 2;
+    int32 price = 3;
+    int32 time = 4;
+    int32 parkId = 5;
+    string createdAt = 6;
+    string lastUpdatedAt = 7;
+}
+
+message CreateUserTariffDto {
+    int32 userId = 1;
+    User user = 2;
+    int32 tariffId = 3;
+    string startedAt = 4;
+    FoundTariff foundTariff = 5;
+}
+
+message UpdateUserTariffDto {
+    int32 id = 1;
+    int32 userId = 2;
+    User user = 3;
+    int32 tariffId = 4;
+    string startedAt = 5;
+}
+
+// Return
+message ResponseData {
+    string message = 1;
+    int32 statusCode = 2;
+    UserTariff data = 3;
+}
+
+message ResponseDataFindAll {
+    string message = 1;
+    int32 statusCode = 2;
+    repeated UserTariff data = 3;
+}

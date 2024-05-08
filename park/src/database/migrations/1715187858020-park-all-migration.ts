@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class AllMigrations1715106781501 implements MigrationInterface {
-    name = 'AllMigrations1715106781501'
+export class ParkAllMigration1715187858020 implements MigrationInterface {
+    name = 'ParkAllMigration1715187858020'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`CREATE TABLE "places" ("id" SERIAL NOT NULL, "name" character varying NOT NULL, "price" integer NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "last_update_at" TIMESTAMP NOT NULL DEFAULT now(), "layer_id" integer, CONSTRAINT "PK_1afab86e226b4c3bc9a74465c12" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "places" ("id" SERIAL NOT NULL, "name" character varying NOT NULL, "price" integer NOT NULL, "layer_id" integer NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "last_update_at" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "PK_1afab86e226b4c3bc9a74465c12" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "layers" ("id" SERIAL NOT NULL, "name" character varying, "floor" integer, "park_id" integer NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "last_update_at" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "PK_611c9a60a779f18c5e55e1f31b5" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "services" ("id" SERIAL NOT NULL, "park_id" integer NOT NULL, "user_id" integer NOT NULL, "started_at" TIMESTAMP NOT NULL DEFAULT now(), "ended_at" TIMESTAMP, "price" integer, "tariff_id" integer NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "last_update_at" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "PK_ba2d347a3168a296416c6c5ccb2" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "parks" ("id" SERIAL NOT NULL, "name" character varying NOT NULL, "owner" integer, "image" integer, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "last_update_at" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "UQ_c0083b667f0488512b094512521" UNIQUE ("name"), CONSTRAINT "PK_035f21558c39565edbf33f03210" PRIMARY KEY ("id"))`);

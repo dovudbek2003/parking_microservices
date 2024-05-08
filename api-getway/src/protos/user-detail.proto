@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+package userDetail;
+
+service UserDetailService {
+    rpc Create(CreateUserDetailDto) returns (ResponseData){}
+    rpc FindAll(Empty) returns (ResponseDataFindAll) {}
+    rpc FindOne(Id) returns (ResponseData) {}
+    rpc Update(UpdateUserDetailDto) returns (ResponseData) {}
+    rpc Remove(Id) returns (ResponseData) {}
+}
+
+
+//  Entity
+message User {
+    int32 id = 1;
+    string phone = 2;
+    string password = 3;
+    string role = 4;
+    int32 parkId = 5;
+    string createdAt = 6;
+    string lastUpdatedAt = 7;
+}
+
+message UserDetail {
+    int32 id = 1;
+    string firstname = 2;
+    string lastname = 3;
+    int32 avatar = 4;
+    int32 userId = 5;
+    User user = 6;
+    string createdAt = 7;
+    string lastUpdatedAt = 8;
+}
+
+// All agruments
+message Empty {}
+message Id {
+    int32 id = 1;
+}
+
+
+// ParkService arguments
+message CreateUserDetailDto {
+    string firstname = 1;
+    string lastname = 2;
+    int32 avatar = 3;
+    int32 userId = 4;
+}
+
+message UpdateUserDetailDto {
+    int32 id = 1;
+    string firstname = 2;
+    string lastname = 3;
+    int32 avatar = 4;
+    int32 userId = 5;
+}
+
+// Return
+message ResponseData {
+    string message = 1;
+    int32 statusCode = 2;
+    UserDetail data = 3;
+}
+
+message ResponseDataFindAll {
+    string message = 1;
+    int32 statusCode = 2;
+    repeated UserDetail data = 3;
+}

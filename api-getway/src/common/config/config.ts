@@ -5,4 +5,5 @@ dotenv.config();
 export const config: IConfig = {
     serverPort: Number(process.env.PORT),
     parkPort: Number(process.env.PARK_PORT),
+    userPort: Number(process.env.USER_PORT),
 }

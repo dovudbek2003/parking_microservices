@@ -1,1 +1,2 @@
 export const PARK_PACKAGE = 'PARK_PACKAGE';
+export const USER_PACKAGE = 'USER_PACKAGE';
