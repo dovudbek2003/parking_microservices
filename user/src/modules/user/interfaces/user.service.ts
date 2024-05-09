@@ -11,7 +11,7 @@ export interface IUserService {
     create(createUserDto: CreateUserDto): Promise<ResponseData<IUserResponseData>>
     findAll(): Promise<ResponseData<Array<User>>>
     findOne(id: number): Promise<ResponseData<User>>
-    _findByPhone(phone: string): Promise<User>
+    findByPhone(phone: string): Promise<ResponseData<User>>
     update(id: number, createUserDto: CreateUserDto): Promise<ResponseData<User>>
     remove(id: number): Promise<ResponseData<User>>
 }

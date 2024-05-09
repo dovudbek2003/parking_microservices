@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package transaction;
+
+service TransactionService {
+    rpc Create(CreateTransactionDto) returns (ResponseData){}
+    rpc FindAll(Empty) returns (ResponseDataFindAll) {}
+    rpc FindOne(Id) returns (ResponseData) {}
+    rpc Update(UpdateTransactionDto) returns (ResponseData) {}
+    rpc Remove(Id) returns (ResponseData) {}
+}
+
+
+// Entity
+message Transaction {
+    int32 id = 1;
+    int32 shotCreditId = 2;
+    int32 shotDebitId = 3;
+    int32 serviceId = 4;
+    int32 amount = 5;
+    string createdAt = 6;
+    string lastUpdatedAt = 7;
+}
+
+// All agruments
+message Empty {}
+message Id {
+    int32 id = 1;
+}
+
+
+// ParkService arguments
+message CreateTransactionDto {
+    int32 shotCreditId = 1;
+    int32 shotDebitId = 2;
+    int32 serviceId = 3;
+    int32 amount = 4;
+}
+
+message UpdateTransactionDto {
+    int32 id = 1;
+    int32 shotCreditId = 2;
+    int32 shotDebitId = 3;
+    int32 serviceId = 4;
+    int32 amount = 5;
+}
+
+// Return
+message ResponseData {
+    string message = 1;
+    int32 statusCode = 2;
+    Transaction data = 3;
+}
+
+message ResponseDataFindAll {
+    string message = 1;
+    int32 statusCode = 2;
+    repeated Transaction data = 3;
+}

@@ -23,6 +23,11 @@ export class UserController {
     return this.userService.findOne(id);
   }
 
+  @GrpcMethod('UserService', 'FindByPhone')
+  findByPhone(@Payload() { phone }: { phone: string }) {
+    return this.userService.findByPhone(phone);
+  }
+
   @GrpcMethod('UserService', 'Update')
   update(@Payload() updateUserDto: UpdateUserDto) {
     return this.userService.update(updateUserDto.id, updateUserDto);

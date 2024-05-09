@@ -6,6 +6,7 @@ service UserService {
     rpc Create(CreateUserDto) returns (ResponseUserData){}
     rpc FindAll(Empty) returns (ResponseDataFindAll) {}
     rpc FindOne(Id) returns (ResponseData) {}
+    rpc FindByPhone(Phone) returns (ResponseData){}
     rpc Update(UpdateUserDto) returns (ResponseData) {}
     rpc Remove(Id) returns (ResponseData) {}
 }
@@ -30,6 +31,10 @@ message Id {
 
 
 // ParkService arguments
+message Phone {
+    string phone = 1;
+}
+
 message CreateUserDto {
     string phone = 1;
     string password = 2;

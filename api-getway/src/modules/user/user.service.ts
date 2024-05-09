@@ -19,15 +19,15 @@ export class UserService {
     this.userService = this.userClient.getService<any>('UserService');
     this.parkService = this.parkClient.getService<any>('ParkService');
   }
-  create(createUserDto: CreateUserDto): Observable<string> {
-    // (async () => {
-    //   console.log('parkId =>', createUserDto.parkId)
-    //   const data = this.parkService.findOne({ id: createUserDto.parkId })
-    //   console.log('bu data => ', await lastValueFrom(data))
-    //   await lastValueFrom(data)
-    // })()
-    return this.userService.create(createUserDto);
-  }
+  // create(createUserDto: CreateUserDto): Observable<string> {
+  //   // (async () => {
+  //   //   console.log('parkId =>', createUserDto.parkId)
+  //   //   const data = this.parkService.findOne({ id: createUserDto.parkId })
+  //   //   console.log('bu data => ', await lastValueFrom(data))
+  //   //   await lastValueFrom(data)
+  //   // })()
+  //   return this.userService.create(createUserDto);
+  // }
 
   findAll(): Observable<string> {
     return this.userService.findAll({});

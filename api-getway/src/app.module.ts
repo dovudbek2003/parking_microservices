@@ -7,8 +7,25 @@ import { ServiceModule } from './modules/service/service.module';
 import { UserModule } from './modules/user/user.module';
 import { UserDetailModule } from './modules/user-detail/user-detail.module';
 import { UserTariffModule } from './modules/user-tariff/user-tariff.module';
+import { ShotModule } from './modules/shot/shot.module';
+import { TransactionModule } from './modules/transaction/transaction.module';
+import { FileModule } from './modules/file/file.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
-  imports: [ParkModule, LayerModule, PlaceModule, TariffModule, ServiceModule, UserModule, UserDetailModule, UserTariffModule]
+  imports: [
+    AuthModule,
+    UserModule,
+    UserTariffModule,
+    UserDetailModule,
+    ParkModule,
+    LayerModule,
+    PlaceModule,
+    TariffModule,
+    ServiceModule,
+    ShotModule,
+    TransactionModule,
+    FileModule,
+  ]
 })
 export class AppModule { }

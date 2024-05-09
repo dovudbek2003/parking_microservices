@@ -18,7 +18,7 @@ export class UserService implements IUserService {
 
   // CREATE
   async create(createUserDto: CreateUserDto): Promise<ResponseData<IUserResponseData>> {
-    const foundUserByPhone = await this._findByPhone(createUserDto.phone)
+    const { data: foundUserByPhone } = await this.findByPhone(createUserDto.phone)
     if (foundUserByPhone) {
       throw new UserAlreadyExists()
     }
@@ -50,14 +50,22 @@ export class UserService implements IUserService {
     }
     return new ResponseData<User>('findOne', 200, user)
   }
-  async _findByPhone(phone: string): Promise<User> {
-    return this.userRepository.findByPhone(phone)
+  async findByPhone(phone: string): Promise<ResponseData<User>> {
+    const foundUser = await this.userRepository.findByPhone(phone);
+    const responseData = new ResponseData('success', 200, foundUser)
+
+    if (!foundUser) {
+      responseData.statusCode = 404;
+      responseData.message = 'User not found';
+    }
+    return responseData
   }
 
   // UPDATE
   async update(id: number, createUserDto: CreateUserDto): Promise<ResponseData<User>> {
+    console.log('update')
     const { data: foundUser } = await this.findOne(id);
-    const foundUserByPhone = await this._findByPhone(createUserDto.phone);
+    const { data: foundUserByPhone } = await this.findByPhone(createUserDto.phone);
     if (foundUserByPhone && foundUser.id !== foundUserByPhone.id) {
       throw new UserAlreadyExists()
     }

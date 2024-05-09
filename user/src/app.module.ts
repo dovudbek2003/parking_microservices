@@ -8,4 +8,4 @@ import { UserTariffModule } from './modules/user-tariff/user-tariff.module';
 @Module({
   imports: [TypeOrmModule.forRoot(typeormConfig), UserModule, UserDetailModule, UserTariffModule],
 })
-export class AppModule {}
+export class AppModule { }
