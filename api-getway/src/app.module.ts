@@ -11,9 +11,22 @@ import { ShotModule } from './modules/shot/shot.module';
 import { TransactionModule } from './modules/transaction/transaction.module';
 import { FileModule } from './modules/file/file.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { CacheModule } from '@nestjs/cache-manager';
+import { redisStore } from 'cache-manager-redis-yet';
 
 @Module({
   imports: [
+    CacheModule.registerAsync({
+      isGlobal: true,
+      useFactory: async () => {
+        const store = await redisStore({
+          socket: { host: '127.0.0.1', port: 6379 },
+          ttl: 10 * 60 * 1000 /** 10 min */
+        })
+
+        return { store }
+      }
+    }),
     AuthModule,
     UserModule,
     UserTariffModule,

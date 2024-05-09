@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Delete, Put, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Put, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ParkService } from './park.service';
 import { CreateParkDto } from './dto/create-park.dto';
 import { UpdateParkDto } from './dto/update-park.dto';
@@ -10,6 +10,8 @@ import { Role } from 'src/common/enums/role.enum';
 import { UserService } from '../user/user.service';
 import { IUserResponseData } from '../user/interfaces/user.interfaces';
 import { Observable, lastValueFrom } from 'rxjs';
+import { CacheInterceptor, CacheKey, CacheTTL } from '@nestjs/cache-manager';
+import { Redis } from 'src/common/enums/redis.enum';
 
 @ApiTags('park')
 @Controller('park')
@@ -31,6 +33,9 @@ export class ParkController {
   // @ApiBearerAuth()
   // @UseGuards(JwtAuthGuard, RolesGuard)
   // @Roles(Role.ADMIN)
+  @UseInterceptors(CacheInterceptor)
+  @CacheKey(Redis.ALL_PARKS)
+  @CacheTTL(0)
   @Get()
   async findAll() {
     return this.parkService.findAll();

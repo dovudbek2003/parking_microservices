@@ -1,10 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { ParkService } from '../park/park.service';
 import { Observable, lastValueFrom } from 'rxjs';
+import { CacheInterceptor, CacheKey, CacheTTL } from '@nestjs/cache-manager';
+import { Redis } from 'src/common/enums/redis.enum';
 
 @ApiTags('user')
 @Controller('user')
@@ -14,6 +16,9 @@ export class UserController {
     private readonly parkService: ParkService
   ) { }
 
+  @UseInterceptors(CacheInterceptor)
+  @CacheKey(Redis.All_USERS)
+  @CacheTTL(0)
   @Get()
   async findAll() {
     return this.userService.findAll();

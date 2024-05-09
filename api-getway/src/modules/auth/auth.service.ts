@@ -8,12 +8,15 @@ import { PasswordOrLoginWrong } from './exception/auth.exception';
 import { isMatch } from 'src/lib/bcrypt';
 import { ResponseData } from 'src/lib/response-data';
 import { CreateUserClientDto, CreateUserOwnerDto } from './dto/create-user-dto';
+import { Cache } from 'cache-manager';
+import { Redis } from 'src/common/enums/redis.enum';
 
 @Injectable()
 export class AuthService {
   private userService: any;
   constructor(
     @Inject(USER_PACKAGE) private userClient: ClientGrpc,
+    @Inject("CACHE_MANAGER") private cacheManager: Cache,
     private jwtService: JwtService
   ) { }
 
@@ -22,9 +25,11 @@ export class AuthService {
   }
 
   async registrOwner(createUserOwnerDto: CreateUserOwnerDto) {
+    await this.cacheManager.del(Redis.All_USERS)
     return this.userService.create(createUserOwnerDto);
   }
   async registrClient(сreateUserClientDto: CreateUserClientDto) {
+    await this.cacheManager.del(Redis.All_USERS)
     return this.userService.create(сreateUserClientDto);
   }
 
