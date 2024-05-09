@@ -1,5 +1,5 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsEnum, IsInt, IsNotEmpty, IsString } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { IsEnum, IsInt, IsNotEmpty, IsOptional, IsString, NotEquals } from 'class-validator';
 import { Role } from 'src/common/enums/role.enum';
 
 export class UpdateUserDto {
@@ -22,16 +22,18 @@ export class UpdateUserDto {
 
     @ApiProperty({
         type: String,
-        enum: Role
+        enum: Role,
+        default: Role.OWNER
     })
     @IsNotEmpty()
     @IsEnum(Role)
+    @NotEquals(Role.ADMIN)
     role: Role;
 
-    @ApiProperty({
+    @ApiPropertyOptional({
         type: Number
     })
-    @IsNotEmpty()
+    @IsOptional()
     @IsInt()
     parkId: number;
 }

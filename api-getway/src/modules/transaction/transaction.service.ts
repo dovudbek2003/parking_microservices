@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
 import { ITransactionService } from './interfaces/transaction.interface';
-import { SHOT_PACKAGE } from 'src/common/const/servers';
+import { TRANSACTION_PACKAGE } from 'src/common/const/servers';
 import { ClientGrpc } from '@nestjs/microservices';
 
 @Injectable()
@@ -10,7 +10,7 @@ export class TransactionService {
   private transactionService: ITransactionService
 
   constructor(
-    @Inject(SHOT_PACKAGE) private transactionClient: ClientGrpc
+    @Inject(TRANSACTION_PACKAGE) private transactionClient: ClientGrpc
   ) { }
 
   onModuleInit() {

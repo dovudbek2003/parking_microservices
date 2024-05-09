@@ -16,23 +16,23 @@ export class PlaceService {
   onModuleInit() {
     this.placeService = this.placeClient.getService<any>('PlaceService');
   }
-  create(createPlaceDto: CreatePlaceDto): Observable<string> {
+  async create(createPlaceDto: CreatePlaceDto) {
     return this.placeService.create(createPlaceDto);
   }
 
-  findAll(): Observable<string> {
+  async findAll() {
     return this.placeService.findAll({});
   }
 
-  findOne(id: number): Observable<string> {
+  async findOne(id: number) {
     return this.placeService.findOne({ id });
   }
 
-  update(updatePlaceDto: UpdatePlaceDto): Observable<string> {
+  async update(updatePlaceDto: UpdatePlaceDto) {
     return this.placeService.update(updatePlaceDto);
   }
 
-  remove(id: number): Observable<string> {
+  async remove(id: number) {
     return this.placeService.remove({ id });
   }
 }

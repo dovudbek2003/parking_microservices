@@ -10,13 +10,13 @@ export class UserDetail {
         type: 'varchar',
         nullable: false,
     })
-    firstName: string;
+    firstname: string;
 
     @Column({
         type: 'varchar',
         nullable: false,
     })
-    lastName: string;
+    lastname: string;
 
     @Column({
         type: 'int',
@@ -45,8 +45,4 @@ export class UserDetail {
         nullable: false,
     })
     lastUpdatedAt: Date;
-
-    @OneToOne(() => User, (user) => user.userDetail)
-    @JoinColumn({ name: 'user_id' })
-    user: User;
 }

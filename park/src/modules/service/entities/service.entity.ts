@@ -42,7 +42,8 @@ export class Service {
 
     @Column({
         name: 'tariff_id',
-        type: 'int'
+        type: 'int',
+        nullable: true
     })
     tariffId: number;
 
@@ -59,16 +60,4 @@ export class Service {
         nullable: false,
     })
     lastUpdatedAt: Date;
-
-    @ManyToOne(() => Park, (park) => park.services, {
-        onDelete: 'CASCADE'
-    })
-    @JoinColumn({ name: 'park_id' })
-    park: Park;
-
-    @ManyToOne(() => Tariff, (tariff) => tariff.services, {
-        onDelete: 'CASCADE'
-    })
-    @JoinColumn({ name: 'tariff_id' })
-    tariff: Tariff;
 }

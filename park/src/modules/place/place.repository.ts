@@ -13,7 +13,7 @@ export class PlaceRepository implements IPlaceRepository {
 
     // READ
     async findAll(): Promise<Place[]> {
-        return await this.repository.find({ relations: ['layer'] })
+        return await this.repository.find()
     }
     async findOne(id: number): Promise<Place> {
         return await this.repository.findOneBy({ id })

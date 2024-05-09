@@ -41,11 +41,4 @@ export class Tariff {
         nullable: false,
     })
     lastUpdatedAt: Date;
-
-    @OneToMany(()=> Service, (service)=> service.tariff)
-    services: Array<Service>
-
-    @ManyToOne((type) => Park, (park) => park.tariffs)
-    @JoinColumn({ name: 'park_id' })
-    park: Park;
 }

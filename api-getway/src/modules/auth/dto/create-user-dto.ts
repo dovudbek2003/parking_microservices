@@ -1,5 +1,5 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsEnum, IsInt, IsNotEmpty, IsString, NotEquals } from "class-validator";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { IsEnum, IsInt, IsNotEmpty, IsOptional, IsString, NotEquals } from "class-validator";
 import { Role } from "src/common/enums/role.enum";
 
 export class CreateUserClientDto {
@@ -18,10 +18,10 @@ export class CreateUserClientDto {
     @IsString()
     password: string;
 
-    @ApiProperty({
+    @ApiPropertyOptional({
         type: Number
     })
-    @IsNotEmpty()
+    @IsOptional()
     @IsInt()
     parkId: number;
 }

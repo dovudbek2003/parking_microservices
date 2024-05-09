@@ -1,4 +1,6 @@
 export const PARK_PACKAGE = 'PARK_PACKAGE';
 export const USER_PACKAGE = 'USER_PACKAGE';
-export const SHOT_PACKAGE = 'SHOT_PACKAGE';
+export const TRANSACTION_PACKAGE = 'TRANSACTION_PACKAGE';
 export const FILE_PACKAGE = 'FILE_PACKAGE';
+
+export const ROLES_KEY = 'OK'

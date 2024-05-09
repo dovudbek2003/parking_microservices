@@ -1,5 +1,4 @@
-import { Layer } from "src/modules/layer/entities/layer.entity";
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('places')
 export class Place {
@@ -37,8 +36,4 @@ export class Place {
         nullable: false,
     })
     lastUpdatedAt: Date;
-
-    @ManyToOne((type) => Layer, (layer) => layer.places)
-    @JoinColumn({ name: 'layer_id' })
-    layer: Layer
 }

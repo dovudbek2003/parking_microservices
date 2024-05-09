@@ -19,7 +19,6 @@ export class TariffService implements ITariffService {
     newTariff.price = createTariffDto.price;
     newTariff.time = createTariffDto.time;
     newTariff.parkId = createTariffDto.parkId;
-    newTariff.park = foundPark;
 
     const createdTariff = await this.tariffRepository.create(newTariff);
 
@@ -32,7 +31,9 @@ export class TariffService implements ITariffService {
     return new ResponseData<Array<Tariff>>('findAll', 200, tariffs)
   }
   async findOne(id: number): Promise<ResponseData<Tariff>> {
+    console.log('park tariff.service =>', id)
     const tariff = await this.tariffRepository.findOne(id);
+    console.log(tariff)
     if (!tariff) {
       throw new TariffNotFound()
     }
@@ -46,7 +47,6 @@ export class TariffService implements ITariffService {
     foundTariff.price = createTariffDto.price ? createTariffDto.price : foundTariff.price;
     foundTariff.time = createTariffDto.time ? createTariffDto.time : foundTariff.time;
     foundTariff.parkId = createTariffDto.parkId ? createTariffDto.parkId : foundTariff.parkId;
-    foundTariff.park = foundPark;
 
     const updatedTariff = await this.tariffRepository.update(foundTariff);
     return new ResponseData<Tariff>('update', 200, updatedTariff)

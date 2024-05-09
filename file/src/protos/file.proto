@@ -13,12 +13,12 @@ service FileService {
 
 // Entity
 message File {
-    int32 id = 1;
-    string url = 2;
-    string mimetype = 3;
-    int32 size = 4;
-    string createdAt = 5;
-    string lastUpdatedAt = 6;
+    string fieldname = 1;
+    string originalname = 2;
+    string encoding = 3;
+    string mimetype = 4;
+    string buffer = 5;
+    int32 size = 6;
 }
 
 // All agruments
@@ -30,8 +30,12 @@ message Id {
 
 // ParkService arguments
 message CreateFileDto {
-    int32 userId = 1;
-    int32 amount = 2;
+    string fieldname = 1;
+    string originalname = 2;
+    string encoding = 3;
+    string mimetype = 4;
+    bytes buffer = 5;
+    int32 size = 6;
 }
 
 message UpdateFileDto {

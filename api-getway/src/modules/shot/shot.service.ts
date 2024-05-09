@@ -2,16 +2,15 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CreateShotDto } from './dto/create-shot.dto';
 import { UpdateShotDto } from './dto/update-shot.dto';
 import { IShotService } from './interfaces/shot.interface';
-import { SHOT_PACKAGE } from 'src/common/const/servers';
+import { TRANSACTION_PACKAGE } from 'src/common/const/servers';
 import { ClientGrpc } from '@nestjs/microservices';
 
 @Injectable()
 export class ShotService {
   private shotService: IShotService
-  // private shotService: any
 
   constructor(
-    @Inject(SHOT_PACKAGE) private shotClient: ClientGrpc
+    @Inject(TRANSACTION_PACKAGE) private shotClient: ClientGrpc
   ) { }
 
   onModuleInit() {
@@ -27,6 +26,10 @@ export class ShotService {
 
   async findOne(id: number) {
     return this.shotService.findOne({ id });
+  }
+
+  async findByUserId(userId: number) {
+    return this.shotService.findByUserId({ userId });
   }
 
   async update(updateShotDto: UpdateShotDto) {

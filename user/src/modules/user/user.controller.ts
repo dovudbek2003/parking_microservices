@@ -19,7 +19,7 @@ export class UserController {
   }
 
   @GrpcMethod('UserService', 'FindOne')
-  findOne(@Payload() { id }: { id: number }) {
+  findOne({ id }: { id: number }) {
     return this.userService.findOne(id);
   }
 

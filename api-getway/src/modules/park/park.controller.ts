@@ -1,37 +1,57 @@
-import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Put, UseGuards } from '@nestjs/common';
 import { ParkService } from './park.service';
 import { CreateParkDto } from './dto/create-park.dto';
 import { UpdateParkDto } from './dto/update-park.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../shared/guards/jwt-auth.guard';
+import { RolesGuard } from '../shared/role.guard';
+import { Roles } from 'src/common/decorator/role.decorator';
+import { Role } from 'src/common/enums/role.enum';
+import { UserService } from '../user/user.service';
+import { IUserResponseData } from '../user/interfaces/user.interfaces';
+import { Observable, lastValueFrom } from 'rxjs';
 
 @ApiTags('park')
 @Controller('park')
 export class ParkController {
-  constructor(private readonly parkService: ParkService) { }
+  constructor(
+    private readonly parkService: ParkService,
+    private readonly userService: UserService
+  ) { }
 
   @Post()
-  create(@Body() createParkDto: CreateParkDto) {
+  async create(@Body() createParkDto: CreateParkDto) {
+    if (createParkDto.owner || createParkDto.owner === 0) {
+      const userObservable: Observable<IUserResponseData> = await this.userService.findOne(createParkDto.owner)
+      await lastValueFrom(userObservable)
+    }
+
     return this.parkService.create(createParkDto);
   }
-
+  // @ApiBearerAuth()
+  // @UseGuards(JwtAuthGuard, RolesGuard)
+  // @Roles(Role.ADMIN)
   @Get()
-  findAll() {
+  async findAll() {
     return this.parkService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string) {
     return this.parkService.findOne(+id);
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateParkDto: UpdateParkDto) {
-
+  async update(@Param('id') id: string, @Body() updateParkDto: UpdateParkDto) {
+    if (updateParkDto.owner || updateParkDto.owner === 0) {
+      const userObservable: Observable<IUserResponseData> = await this.userService.findOne(updateParkDto.owner)
+      await lastValueFrom(userObservable)
+    }
     return this.parkService.update({ ...updateParkDto, id: +id });
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) {
     return this.parkService.remove(+id);
   }
 }

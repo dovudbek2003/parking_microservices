@@ -25,8 +25,9 @@ export interface UpdateShotDto extends CreateShotDto {
 
 export interface IShotService {
     create(createShotDto: CreateShotDto): Observable<IShotResponseData<IShot>>
-    findAll({}): Observable<IShotResponseData<Array<IShot>>>
-    findOne({id}: {id:number}): Observable<IShotResponseData<IShot>>
+    findAll({ }): Observable<IShotResponseData<Array<IShot>>>
+    findOne({ id }: { id: number }): Observable<IShotResponseData<IShot>>
+    findByUserId({ userId }: { userId: number }): Observable<IShot>
     update(updateShotDto: UpdateShotDto): Observable<IShotResponseData<IShot>>
-    remove({id}: {id:number}): Observable<IShotResponseData<IShot>>
+    remove({ id }: { id: number }): Observable<IShotResponseData<IShot>>
 }

@@ -13,7 +13,7 @@ export class LayerRepository implements ILayerRepository {
 
     // READE
     async findAll(): Promise<Layer[]> {
-        return this.repository.find({ relations: ['park'] })
+        return this.repository.find()
     }
     async findOne(id: number): Promise<Layer> {
         return this.repository.findOneBy({ id })

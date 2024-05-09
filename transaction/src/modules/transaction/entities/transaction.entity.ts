@@ -44,7 +44,5 @@ export class TransactionEntity {
         type: 'timestamp',
         nullable: false,
     })
-    lastUpdatedAt: Date;
-
-    
+    lastUpdatedAt: Date;    
 }

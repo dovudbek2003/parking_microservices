@@ -47,10 +47,4 @@ export class User {
         nullable: false,
     })
     lastUpdatedAt: Date;
-
-    @OneToOne(() => UserDetail, (userDetail) => userDetail.user)
-    userDetail: UserDetail;
-
-    @OneToMany(() => UserTariff, (userTariff) => userTariff.user)
-    userTariffs: Array<UserTariff>
 }

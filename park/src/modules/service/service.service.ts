@@ -23,12 +23,10 @@ export class ServiceService implements IServiceService {
     newService.parkId = createServiceDto.parkId;
     newService.userId = createServiceDto.userId;
     newService.startedAt = createServiceDto.startedAt;
-    newService.park = foundPark;
 
     if (foundTariff) {
       newService.price = foundTariff.price;
       newService.tariffId = createServiceDto.tariffId;
-      newService.tariff = foundTariff;
 
       const timestamp = createServiceDto.startedAt;
       const date = new Date(timestamp);
@@ -45,10 +43,6 @@ export class ServiceService implements IServiceService {
       newService.price = createServiceDto.price;
       newService.endedAt = createServiceDto.endedAt;
     }
-
-
-    // console.log('newService =>', newService);
-    // console.log('createServiceDto =>', createServiceDto);
 
     const createdService = await this.serviceRepository.create(newService);
     return new ResponseData<Service>('create', 201, createdService)
@@ -78,12 +72,10 @@ export class ServiceService implements IServiceService {
     foundService.parkId = updateServiceDto.parkId ? updateServiceDto.parkId : foundService.parkId;
     foundService.userId = updateServiceDto.userId ? updateServiceDto.userId : foundService.userId;
     foundService.startedAt = updateServiceDto.startedAt ? updateServiceDto.startedAt : foundService.startedAt;
-    foundService.park = foundPark;
 
     if (foundTariff) {
       foundService.price = foundTariff.price;
       foundService.tariffId = updateServiceDto.tariffId;
-      foundService.tariff = foundTariff;
 
       const timestamp = updateServiceDto.startedAt;
       const date = new Date(timestamp);

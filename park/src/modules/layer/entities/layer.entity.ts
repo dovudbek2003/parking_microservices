@@ -1,6 +1,4 @@
-import { Park } from "src/modules/park/entities/park.entity";
-import { Place } from "src/modules/place/entities/place.entity";
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('layers')
 export class Layer {
@@ -38,14 +36,4 @@ export class Layer {
         nullable: false,
     })
     lastUpdatedAt: Date;
-
-    @ManyToOne((type) => Park, (park) => park.layers, {
-        onDelete: 'SET NULL',
-        nullable: true
-    })
-    @JoinColumn({ name: 'park_id' })
-    park: Park;
-
-    @OneToMany((type) => Place, (place) => place.layer)
-    places: Array<Place>;
 }

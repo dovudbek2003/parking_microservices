@@ -5,6 +5,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { PARK_PACKAGE, USER_PACKAGE } from 'src/common/const/servers';
 import { join } from 'path';
 import { config } from 'src/common/config/config';
+import { ParkService } from '../park/park.service';
 
 @Module({
   imports: [
@@ -30,6 +31,6 @@ import { config } from 'src/common/config/config';
     ]),
   ],
   controllers: [UserController],
-  providers: [UserService],
+  providers: [UserService, ParkService],
 })
 export class UserModule { }

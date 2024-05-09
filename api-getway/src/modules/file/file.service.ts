@@ -1,26 +1,38 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateFileDto } from './dto/create-file.dto';
 import { UpdateFileDto } from './dto/update-file.dto';
+import { FILE_PACKAGE } from 'src/common/const/servers';
+import { ClientGrpc } from '@nestjs/microservices';
 
 @Injectable()
 export class FileService {
-  create(createFileDto: CreateFileDto) {
-    return 'This action adds a new file';
+  private fileService: any;
+
+  constructor(
+    @Inject(FILE_PACKAGE) private fileClient: ClientGrpc,
+  ) { }
+
+  onModuleInit() {
+    this.fileService = this.fileClient.getService<any>('FileService');
   }
 
-  findAll() {
+  async create(createFileDto: CreateFileDto) {
+    return this.fileService.create(createFileDto);
+  }
+
+  async findAll() {
     return `This action returns all file`;
   }
 
-  findOne(id: number) {
+  async findOne(id: number) {
     return `This action returns a #${id} file`;
   }
 
-  update(id: number, updateFileDto: UpdateFileDto) {
+  async update(id: number, updateFileDto: UpdateFileDto) {
     return `This action updates a #${id} file`;
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return `This action removes a #${id} file`;
   }
 }

@@ -3,34 +3,41 @@ import { PlaceService } from './place.service';
 import { CreatePlaceDto } from './dto/create-place.dto';
 import { UpdatePlaceDto } from './dto/update-place.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { LayerService } from '../layer/layer.service';
+import { Observable, lastValueFrom } from 'rxjs';
 
 @ApiTags('place')
 @Controller('place')
 export class PlaceController {
-  constructor(private readonly placeService: PlaceService) {}
+  constructor(
+    private readonly placeService: PlaceService,
+    private readonly layerService: LayerService
+  ) { }
 
   @Post()
-  create(@Body() createPlaceDto: CreatePlaceDto) {
+  async create(@Body() createPlaceDto: CreatePlaceDto) {
+    const parkObservable: Observable<any> = await this.layerService.findOne(createPlaceDto.layerId)
+    await lastValueFrom(parkObservable)
     return this.placeService.create(createPlaceDto);
   }
 
   @Get()
-  findAll() {
+  async findAll() {
     return this.placeService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string) {
     return this.placeService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePlaceDto: UpdatePlaceDto) {
-    return this.placeService.update({...updatePlaceDto, id: +id});
+  async update(@Param('id') id: string, @Body() updatePlaceDto: UpdatePlaceDto) {
+    return this.placeService.update({ ...updatePlaceDto, id: +id });
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) {
     return this.placeService.remove(+id);
   }
 }

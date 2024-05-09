@@ -6,6 +6,7 @@ service ShotService {
     rpc Create(CreateShotDto) returns (ResponseData){}
     rpc FindAll(Empty) returns (ResponseDataFindAll) {}
     rpc FindOne(Id) returns (ResponseData) {}
+    rpc FindByUserId(Id) returns (Shot){}
     rpc Update(UpdateShotDto) returns (ResponseData) {}
     rpc Remove(Id) returns (ResponseData) {}
 }

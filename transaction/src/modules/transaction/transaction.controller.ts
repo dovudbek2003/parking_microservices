@@ -14,7 +14,7 @@ export class TransactionController {
   ) { }
 
   @GrpcMethod('TransactionService', 'Create')
-  async create(@Payload() createTransactionDto: CreateTransactionDto) {
+  async create(createTransactionDto: CreateTransactionDto) {
     const foundShotCreatId = await this.shotService._findByUserId(createTransactionDto.shotCreditId)
     const foundShotDebitId = await this.shotService._findByUserId(createTransactionDto.shotDebitId)
     return this.transactionService.create(createTransactionDto, foundShotCreatId, foundShotDebitId);
@@ -26,12 +26,12 @@ export class TransactionController {
   }
 
   @GrpcMethod('TransactionService', 'FindOne')
-  async findOne(@Payload() { id }: { id: number }) {
+  async findOne({ id }: { id: number }) {
     return this.transactionService.findOne(id);
   }
 
   @GrpcMethod('TransactionService', 'Update')
-  async update(@Payload() updateTransactionDto: UpdateTransactionDto) {
+  async update(updateTransactionDto: UpdateTransactionDto) {
     let foundShotCreatId = null;
     let foundShotDebitId = null;
     if (updateTransactionDto.shotCreditId) {
@@ -45,7 +45,7 @@ export class TransactionController {
   }
 
   @GrpcMethod('TransactionService', 'Remove')
-  async remove(@Payload() { id }: { id: number }) {
+  async remove({ id }: { id: number }) {
     return this.transactionService.remove(id);
   }
 }

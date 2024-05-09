@@ -5,6 +5,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { USER_PACKAGE } from 'src/common/const/servers';
 import { join } from 'path';
 import { config } from 'src/common/config/config';
+import { UserService } from '../user/user.service';
 
 @Module({
   imports: [
@@ -13,14 +14,17 @@ import { config } from 'src/common/config/config';
         name: USER_PACKAGE,
         transport: Transport.GRPC,
         options: {
-          package: 'userDetail',
-          protoPath: join(__dirname, '..', '..', '..', 'src', 'protos', 'user-detail.proto'),
+          package: ['userDetail', 'user'],
+          protoPath: [
+            join(__dirname, '..', '..', '..', 'src', 'protos', 'user-detail.proto'),
+            join(__dirname, '..', '..', '..', 'src', 'protos', 'user.proto'),
+          ],
           url: `localhost:${config.userPort}`
         },
       }
     ]),
   ],
   controllers: [UserDetailController],
-  providers: [UserDetailService],
+  providers: [UserDetailService, UserService],
 })
-export class UserDetailModule {}
+export class UserDetailModule { }

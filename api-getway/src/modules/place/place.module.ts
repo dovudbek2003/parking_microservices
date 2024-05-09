@@ -5,6 +5,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { PARK_PACKAGE } from 'src/common/const/servers';
 import { join } from 'path';
 import { config } from 'src/common/config/config';
+import { LayerService } from '../layer/layer.service';
 
 @Module({
   imports: [
@@ -13,14 +14,17 @@ import { config } from 'src/common/config/config';
         name: PARK_PACKAGE,
         transport: Transport.GRPC,
         options: {
-          package: 'place',
-          protoPath: join(__dirname, '..', '..', '..', 'src', 'protos', 'place.proto'),
+          package: ['place', 'layer'],
+          protoPath: [
+            join(__dirname, '..', '..', '..', 'src', 'protos', 'place.proto'),
+            join(__dirname, '..', '..', '..', 'src', 'protos', 'layer.proto'),
+          ],
           url: `localhost:${config.parkPort}`
         },
       },
     ]),
   ],
   controllers: [PlaceController],
-  providers: [PlaceService],
+  providers: [PlaceService, LayerService],
 })
 export class PlaceModule {}

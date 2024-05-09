@@ -47,11 +47,4 @@ export class UserTariff {
         nullable: false,
     })
     lastUpdatedAt: Date;
-
-    @ManyToOne(() => User, (user) => user.userTariffs, {
-        onDelete: 'CASCADE',
-        nullable: true,
-    })
-    @JoinColumn({ name: 'user_id' })
-    user: User
 }

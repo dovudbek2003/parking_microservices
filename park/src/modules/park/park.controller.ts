@@ -10,7 +10,7 @@ export class ParkController {
   constructor(@Inject('IParkService') private readonly parkService: IParkService) { }
 
   @GrpcMethod('ParkService', 'Create')
-  create(@Payload() createParkDto: CreateParkDto) {
+  create(createParkDto: CreateParkDto) {
     return this.parkService.create(createParkDto);
   }
 
@@ -20,18 +20,17 @@ export class ParkController {
   }
 
   @GrpcMethod('ParkService', 'FindOne')
-  findOne(@Payload() { id }: { id: number }) {
-    console.log('id =>', id)
+  findOne({ id }: { id: number }) {
     return this.parkService.findOne(id);
   }
 
   @GrpcMethod('ParkService', 'Update')
-  update(@Payload() updateParkDto: UpdateParkDto) {
+  update(updateParkDto: UpdateParkDto) {
     return this.parkService.update(updateParkDto.id, updateParkDto);
   }
 
   @GrpcMethod('ParkService', 'Remove')
-  remove(@Payload() { id }: { id: number }) {
+  remove({ id }: { id: number }) {
     return this.parkService.remove(id);
   }
 }

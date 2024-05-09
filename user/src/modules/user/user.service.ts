@@ -8,6 +8,7 @@ import { User } from './entities/user.entity';
 import { UserAlreadyExists, UserNotFound } from './exception/user.exception';
 import { hash } from 'src/lib/bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { Role } from 'src/common/enums/role.enum';
 
 @Injectable()
 export class UserService implements IUserService {
@@ -26,8 +27,13 @@ export class UserService implements IUserService {
     const newUser = new User()
     newUser.phone = createUserDto.phone;
     newUser.password = await hash(createUserDto.password);
-    newUser.role = createUserDto.role;
     newUser.parkId = createUserDto.parkId;
+
+    if (!createUserDto.role) {
+      newUser.role = Role.CLIENT;
+    } else {
+      newUser.role = createUserDto.role;
+    }
 
     const createdUser = await this.userRepository.create(newUser);
     const token = await this.jwtService.signAsync({ id: createdUser.id })
@@ -63,7 +69,6 @@ export class UserService implements IUserService {
 
   // UPDATE
   async update(id: number, createUserDto: CreateUserDto): Promise<ResponseData<User>> {
-    console.log('update')
     const { data: foundUser } = await this.findOne(id);
     const { data: foundUserByPhone } = await this.findByPhone(createUserDto.phone);
     if (foundUserByPhone && foundUser.id !== foundUserByPhone.id) {

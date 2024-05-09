@@ -51,12 +51,14 @@ message FoundTariff {
     string lastUpdatedAt = 7;
 }
 
+
 message CreateUserTariffDto {
     int32 userId = 1;
     User user = 2;
     int32 tariffId = 3;
     string startedAt = 4;
-    FoundTariff foundTariff = 5;
+    User foundUser = 5;
+    FoundTariff foundTariff = 6;
 }
 
 message UpdateUserTariffDto {
@@ -65,6 +67,8 @@ message UpdateUserTariffDto {
     User user = 3;
     int32 tariffId = 4;
     string startedAt = 5;
+    User foundUser = 6;
+    FoundTariff foundTariff = 7;
 }
 
 // Return

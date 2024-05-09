@@ -20,7 +20,6 @@ export class UserTariffService implements IUserTariffService {
     newUserTariff.userId = createUserTariffDto.userId;
     newUserTariff.tariffId = createUserTariffDto.tariffId;
     newUserTariff.startedAt = createUserTariffDto.startedAt;
-    newUserTariff.user = foundUser;
 
     const date = new Date(createUserTariffDto.startedAt);
     const hoursInMillis = foundTariff.time * 60 * 60 * 1000;
@@ -48,11 +47,10 @@ export class UserTariffService implements IUserTariffService {
   }
 
   // UPDATE
-  async update(id: number, updateUserTariffdto: UpdateUserTariffDto, foundUser: User, foundTariff: ITariff | null): Promise<ResponseData<UserTariff>> {
+  async update(id: number, updateUserTariffdto: UpdateUserTariffDto, foundUser: User | null, foundTariff: ITariff | null): Promise<ResponseData<UserTariff>> {
     const { data: foundUserTariff } = await this.findOne(id)
 
     foundUserTariff.userId = updateUserTariffdto.userId ? updateUserTariffdto.userId : foundUserTariff.userId;
-    foundUserTariff.user = foundUser ? foundUser : foundUserTariff.user;
     foundUserTariff.startedAt = updateUserTariffdto.startedAt ? updateUserTariffdto.startedAt : foundUserTariff.startedAt;
 
     if (foundTariff) {

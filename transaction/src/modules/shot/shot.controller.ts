@@ -9,7 +9,7 @@ export class ShotController {
   constructor(@Inject('IShotService') private readonly shotService: IShotService) { }
 
   @GrpcMethod('ShotService', 'Create')
-  create(@Payload() createShotDto: CreateShotDto) {
+  create(createShotDto: CreateShotDto) {
     return this.shotService.create(createShotDto);
   }
 
@@ -19,17 +19,23 @@ export class ShotController {
   }
 
   @GrpcMethod('ShotService', 'FindOne')
-  findOne(@Payload() { id }: { id: number }) {
+  findOne({ id }: { id: number }) {
     return this.shotService.findOne(id);
   }
 
+  @GrpcMethod('ShotService', 'FindByUserId')
+  findByUserId({ userId }: { userId: number }) {
+    return this.shotService._findByUserId(userId);
+  }
+
+
   @GrpcMethod('ShotService', 'Update')
-  update(@Payload() updateShotDto: UpdateShotDto) {
+  update(updateShotDto: UpdateShotDto) {
     return this.shotService.update(updateShotDto.id, updateShotDto);
   }
 
   @GrpcMethod('ShotService', 'Remove')
-  remove(@Payload() { id }: { id: number }) {
+  remove({ id }: { id: number }) {
     return this.shotService.remove(id);
   }
 }

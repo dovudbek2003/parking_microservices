@@ -13,7 +13,7 @@ export class UserTariffRepository implements IUserTariffRepository {
 
     // READ
     async findAll(): Promise<UserTariff[]> {
-        return this.repository.find({ relations: ['user'] })
+        return this.repository.find()
     }
     async findOne(id: number): Promise<UserTariff> {
         return this.repository.findOneBy({ id })

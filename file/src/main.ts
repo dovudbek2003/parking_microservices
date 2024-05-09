@@ -8,10 +8,10 @@ async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {
     transport: Transport.GRPC,
     options: {
-      package: ['shot', 'transaction'],
+      package: 'file',
       protoPath: [
-        join(__dirname, "../src/protos", "shot.proto"),
-        join(__dirname, "../src/protos", "transaction.proto")
+        join(__dirname, "../src/protos", "file.proto"),
+        // join(__dirname, "../src/protos", "transaction.proto")
         // join(__dirname, "../src/protos", "place.proto"),
         // join(__dirname, "../src/protos", "tariff.proto"),
         // join(__dirname, "../src/protos", "service.proto")

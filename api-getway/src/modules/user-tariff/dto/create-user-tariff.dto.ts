@@ -24,5 +24,7 @@ export class CreateUserTariffDto {
     @IsDateString()
     startedAt: Date;
 
+    foundUser: any | null;
+
     foundTariff: ITariff | null
 }

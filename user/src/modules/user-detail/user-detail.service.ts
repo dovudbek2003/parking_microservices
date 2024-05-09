@@ -13,14 +13,13 @@ export class UserDetailService implements IUserDetailService {
   constructor(@Inject('IUserDetailRepository') private readonly userDetailRepository: IUserDetailRepository) { }
 
   // CREATE
-  async create(createUserDetailDto: CreateUserDetailDto, foundUser: User): Promise<ResponseData<UserDetail>> {
+  async create(createUserDetailDto: CreateUserDetailDto): Promise<ResponseData<UserDetail>> {
     const newUserDetail = new UserDetail()
 
-    newUserDetail.firstName = createUserDetailDto.firstname;
-    newUserDetail.lastName = createUserDetailDto.lastname;
+    newUserDetail.firstname = createUserDetailDto.firstname;
+    newUserDetail.lastname = createUserDetailDto.lastname;
     newUserDetail.avatar = createUserDetailDto.avatar;
     newUserDetail.userId = createUserDetailDto.userId;
-    newUserDetail.user = foundUser;
 
     const createdUserDetail = await this.userDetailRepository.create(newUserDetail);
 
@@ -41,14 +40,13 @@ export class UserDetailService implements IUserDetailService {
   }
 
   // UPDATE
-  async update(id: number, updateUserDetailDto: UpdateUserDetailDto, foundUser: User): Promise<ResponseData<UserDetail>> {
+  async update(id: number, updateUserDetailDto: UpdateUserDetailDto): Promise<ResponseData<UserDetail>> {
     const { data: foundUserDetail } = await this.findOne(id)
 
-    foundUserDetail.firstName = updateUserDetailDto.firstname ? updateUserDetailDto.firstname : foundUserDetail.firstName;
-    foundUserDetail.lastName = updateUserDetailDto.lastname ? updateUserDetailDto.lastname : foundUserDetail.lastName;
+    foundUserDetail.firstname = updateUserDetailDto.firstname ? updateUserDetailDto.firstname : foundUserDetail.firstname;
+    foundUserDetail.lastname = updateUserDetailDto.lastname ? updateUserDetailDto.lastname : foundUserDetail.lastname;
     foundUserDetail.avatar = updateUserDetailDto.avatar ? updateUserDetailDto.avatar : foundUserDetail.avatar;
     foundUserDetail.userId = updateUserDetailDto.userId ? updateUserDetailDto.userId : foundUserDetail.userId;
-    foundUserDetail.user = foundUser;
 
     const updatedUserDetail = await this.userDetailRepository.update(foundUserDetail);
     return new ResponseData<UserDetail>('update', 200, updatedUserDetail)

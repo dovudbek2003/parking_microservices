@@ -1,5 +1,5 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsDate, IsDateString, IsInt, IsNotEmpty } from "class-validator";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { IsDate, IsDateString, IsInt, IsNotEmpty, IsOptional } from "class-validator";
 
 export class CreateServiceDto {
     @ApiProperty({
@@ -32,17 +32,17 @@ export class CreateServiceDto {
     @IsDateString()
     endedAt: Date;
 
-    @ApiProperty({
+    @ApiPropertyOptional({
         type: Number
     })
-    @IsNotEmpty()
+    @IsOptional()
     @IsInt()
     price: number;
 
-    @ApiProperty({
+    @ApiPropertyOptional({
         type: Number
     })
-    @IsNotEmpty()
+    @IsOptional()
     @IsInt()
     tariffId: number;
 }

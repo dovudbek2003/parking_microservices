@@ -18,10 +18,10 @@ export class UpdateLayerDto {
     @IsInt()
     floor: number;
 
-    @ApiProperty({
+    @ApiPropertyOptional({
         type: Number
     })
-    @IsNotEmpty()
+    @IsOptional()
     @IsInt()
     parkId: number;
 }

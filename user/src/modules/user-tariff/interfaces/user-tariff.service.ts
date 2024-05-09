@@ -9,6 +9,6 @@ export interface IUserTariffService {
     create(createUserTariffDto: CreateUserTariffDto, foundUser: User, foundTariff: ITariff | null): Promise<ResponseData<UserTariff>>
     findAll(): Promise<ResponseData<Array<UserTariff>>>
     findOne(id: number): Promise<ResponseData<UserTariff>>
-    update(id: number, updateUserTariffdto: UpdateUserTariffDto, foundUser: User, foundTariff: ITariff | null): Promise<ResponseData<UserTariff>>
+    update(id: number, updateUserTariffdto: UpdateUserTariffDto, foundUser: User | null, foundTariff: ITariff | null): Promise<ResponseData<UserTariff>>
     remove(id: number): Promise<ResponseData<UserTariff>>
 }

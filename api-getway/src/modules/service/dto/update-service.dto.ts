@@ -1,6 +1,6 @@
-import { ApiProperty, PartialType } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional, PartialType } from '@nestjs/swagger';
 import { CreateServiceDto } from './create-service.dto';
-import { IsDate, IsInt, IsNotEmpty } from 'class-validator';
+import { IsDate, IsDateString, IsInt, IsNotEmpty, IsOptional } from 'class-validator';
 
 export class UpdateServiceDto {
     id: number;
@@ -23,27 +23,27 @@ export class UpdateServiceDto {
         type: Date
     })
     @IsNotEmpty()
-    @IsDate()
+    @IsDateString()
     startedAt: Date;
 
     @ApiProperty({
         type: Date
     })
     @IsNotEmpty()
-    @IsDate()
+    @IsDateString()
     endedAt: Date;
 
-    @ApiProperty({
+    @ApiPropertyOptional({
         type: Number
     })
-    @IsNotEmpty()
+    @IsOptional()
     @IsInt()
     price: number;
 
-    @ApiProperty({
+    @ApiPropertyOptional({
         type: Number
     })
-    @IsNotEmpty()
+    @IsOptional()
     @IsInt()
     tariffId: number;
 }

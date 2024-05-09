@@ -3,35 +3,34 @@ import { CreateServiceDto } from './dto/create-service.dto';
 import { UpdateServiceDto } from './dto/update-service.dto';
 import { PARK_PACKAGE } from 'src/common/const/servers';
 import { ClientGrpc } from '@nestjs/microservices';
-import { Observable } from 'rxjs';
 
 @Injectable()
 export class ServiceService {
   private serviceService: any;
-  constructor(  
+  constructor(
     @Inject(PARK_PACKAGE) private serviceClient: ClientGrpc
   ) { }
 
   onModuleInit() {
     this.serviceService = this.serviceClient.getService<any>('ServiceService');
   }
-  create(createServiceDto: CreateServiceDto): Observable<string> {
+  async create(createServiceDto: CreateServiceDto) {
     return this.serviceService.create(createServiceDto);
   }
 
-  findAll(): Observable<string> {
+  async findAll() {
     return this.serviceService.findAll({});
   }
 
-  findOne(id: number): Observable<string> {
+  async findOne(id: number) {
     return this.serviceService.findOne({ id });
   }
 
-  update(updateServiceDto: UpdateServiceDto): Observable<string> {
+  async update(updateServiceDto: UpdateServiceDto) {
     return this.serviceService.update(updateServiceDto);
   }
 
-  remove(id: number): Observable<string> {
+  async remove(id: number) {
     return this.serviceService.remove({ id });
   }
 }

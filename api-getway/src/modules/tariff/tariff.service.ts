@@ -3,35 +3,34 @@ import { CreateTariffDto } from './dto/create-tariff.dto';
 import { UpdateTariffDto } from './dto/update-tariff.dto';
 import { PARK_PACKAGE } from 'src/common/const/servers';
 import { ClientGrpc } from '@nestjs/microservices';
-import { Observable } from 'rxjs';
 
 @Injectable()
 export class TariffService {
   private tariffService: any;
-  constructor(  
-    @Inject(PARK_PACKAGE) private tariffClient: ClientGrpc
+  constructor(
+    @Inject(PARK_PACKAGE) private tariffClient: ClientGrpc,
   ) { }
 
   onModuleInit() {
     this.tariffService = this.tariffClient.getService<any>('TariffService');
   }
-  create(createTariffDto: CreateTariffDto): Observable<string> {
+  async create(createTariffDto: CreateTariffDto) {
     return this.tariffService.create(createTariffDto);
   }
 
-  findAll(): Observable<string> {
+  async findAll(){
     return this.tariffService.findAll({});
   }
 
-  findOne(id: number): Observable<string> {
+  async findOne(id: number){
     return this.tariffService.findOne({ id });
   }
 
-  update(updateTariffDto: UpdateTariffDto): Observable<string> {
+  async update(updateTariffDto: UpdateTariffDto){
     return this.tariffService.update(updateTariffDto);
   }
 
-  remove(id: number): Observable<string> {
+  async remove(id: number){
     return this.tariffService.remove({ id });
   }
 }

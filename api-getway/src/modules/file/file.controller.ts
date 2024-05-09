@@ -25,7 +25,7 @@ export class FileController {
       }
     }
   })
-  @UseInterceptors(FileInterceptor('file', fileOption))
+  @UseInterceptors(FileInterceptor('file'))
   uploadFile(
     @UploadedFile(
       new ParseFilePipe({
@@ -37,9 +37,7 @@ export class FileController {
     )
     file: Express.Multer.File, @Body() createFileDto: CreateFileDto
   ) {
-    // const fileData = { ...file, originalname: createFileDto.fileName ? createFileDto.fileName : file.originalname }
     console.log('file =>', file)
-    return 'ok'
     return this.fileService.create(file);
   }
   @Post()

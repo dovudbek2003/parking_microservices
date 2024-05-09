@@ -25,6 +25,8 @@ export class UpdateUserTariffDto {
     @IsNotEmpty()
     @IsDateString()
     startedAt: Date;
-    
+
+    foundUser: any;
+
     foundTariff: ITariff | null
 }

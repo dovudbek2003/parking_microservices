@@ -13,7 +13,7 @@ export class LayerService implements ILayerService {
   constructor(@Inject('ILayerRepository') private readonly layerRepository: ILayerRepository) { }
 
   // CREATE
-  async create(createLayerDto: CreateLayerDto, foundPark: Park): Promise<ResponseData<Layer>> {
+  async create(createLayerDto: CreateLayerDto): Promise<ResponseData<Layer>> {
     if (!createLayerDto.floor && !createLayerDto.name) {
       throw new FloorOrNameMustBeEntered()
     }
@@ -22,7 +22,6 @@ export class LayerService implements ILayerService {
     newLayer.name = createLayerDto.name;
     newLayer.floor = createLayerDto.floor;
     newLayer.parkId = createLayerDto.parkId;
-    newLayer.park = foundPark;
 
     const createdLayer = await this.layerRepository.create(newLayer);
 
@@ -44,16 +43,12 @@ export class LayerService implements ILayerService {
   }
 
   // UPDATE
-  async update(id: number, updateLayerDto: UpdateLayerDto, foundPark: Park): Promise<ResponseData<Layer>> {
+  async update(id: number, updateLayerDto: UpdateLayerDto): Promise<ResponseData<Layer>> {
     const { data: foundLayer } = await this.findOne(id)
 
     foundLayer.name = updateLayerDto.name ? updateLayerDto.name : foundLayer.name;
     foundLayer.floor = updateLayerDto.floor ? updateLayerDto.floor : foundLayer.floor;
-
-    if (foundPark) {
-      foundLayer.park = foundPark;
-      foundLayer.parkId = updateLayerDto.parkId;
-    }
+    foundLayer.parkId = updateLayerDto.parkId;
 
     const updatedLayer = await this.layerRepository.update(foundLayer);
     return new ResponseData<Layer>('update', 200, updatedLayer)

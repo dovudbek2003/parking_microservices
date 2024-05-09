@@ -13,11 +13,11 @@ export class PlaceService implements IPlaceService {
   constructor(@Inject('IPlaceRepository') private placeRepository: IPlaceRepository) { }
 
   // CREATE
-  async create(createPlaceDto: CreatePlaceDto, foundLayer: Layer): Promise<ResponseData<Place>> {
+  async create(createPlaceDto: CreatePlaceDto): Promise<ResponseData<Place>> {
     const newPlace = new Place()
     newPlace.name = createPlaceDto.name;
     newPlace.price = createPlaceDto.price;
-    newPlace.layer = foundLayer;
+    newPlace.layerId = createPlaceDto.layerId;
 
     const createdPlace = await this.placeRepository.create(newPlace);
     return new ResponseData<Place>('create', 201, createdPlace)
@@ -38,13 +38,11 @@ export class PlaceService implements IPlaceService {
   }
 
   // UPDATE
-  async update(id: number, updatePlaceDto: CreatePlaceDto, foundLayer: Layer): Promise<ResponseData<Place>> {
+  async update(id: number, updatePlaceDto: CreatePlaceDto): Promise<ResponseData<Place>> {
     const { data: foundPlace } = await this.findOne(id)
     foundPlace.name = updatePlaceDto.name ? updatePlaceDto.name : foundPlace.name;
     foundPlace.price = updatePlaceDto.price ? updatePlaceDto.price : foundPlace.price;
-    if (foundLayer) {
-      foundPlace.layer = foundLayer;
-    }
+    foundPlace.layerId = updatePlaceDto.layerId ? updatePlaceDto.layerId : foundPlace.layerId;
 
     const updatedPlace = await this.placeRepository.update(foundPlace);
     return new ResponseData<Place>('update', 200, updatedPlace)

@@ -14,8 +14,7 @@ export class UserDetailController {
 
   @GrpcMethod('UserDetailService', 'Create')
   async create(@Payload() createUserDetailDto: CreateUserDetailDto) {
-    const { data: foundUser } = await this.userService.findOne(createUserDetailDto.userId);
-    return this.userDetailService.create(createUserDetailDto, foundUser);
+    return this.userDetailService.create(createUserDetailDto);
   }
 
   @GrpcMethod('UserDetailService', 'FindAll')
@@ -30,8 +29,7 @@ export class UserDetailController {
 
   @GrpcMethod('UserDetailService', 'Update')
   async update(@Payload() updateUserDetailDto: UpdateUserDetailDto) {
-    const { data: foundUser } = await this.userService.findOne(updateUserDetailDto.userId);
-    return this.userDetailService.update(updateUserDetailDto.id, updateUserDetailDto, foundUser);
+    return this.userDetailService.update(updateUserDetailDto.id, updateUserDetailDto);
   }
 
   @GrpcMethod('UserDetailService', 'Remove')

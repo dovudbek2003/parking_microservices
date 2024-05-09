@@ -13,7 +13,7 @@ export class TariffRepository implements ITariffRepository {
 
     // READ
     async findAll(): Promise<Tariff[]> {
-        return this.repository.find({ relations: ['park'] })
+        return this.repository.find()
     }
     async findOne(id: number): Promise<Tariff> {
         return this.repository.findOneBy({ id })

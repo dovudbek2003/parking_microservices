@@ -3,7 +3,6 @@ import { CreateUserDetailDto } from './dto/create-user-detail.dto';
 import { UpdateUserDetailDto } from './dto/update-user-detail.dto';
 import { USER_PACKAGE } from 'src/common/const/servers';
 import { ClientGrpc } from '@nestjs/microservices';
-import { Observable } from 'rxjs';
 
 @Injectable()
 export class UserDetailService {
@@ -14,23 +13,23 @@ export class UserDetailService {
   onModuleInit() {
     this.userDetailService = this.userDetailClient.getService<any>('UserDetailService');
   }
-  create(createUserDetailDto: CreateUserDetailDto): Observable<string> {
+  async create(createUserDetailDto: CreateUserDetailDto) {
     return this.userDetailService.create(createUserDetailDto);
   }
 
-  findAll(): Observable<string> {
+  async findAll() {
     return this.userDetailService.findAll({});
   }
 
-  findOne(id: number): Observable<string> {
+  async findOne(id: number) {
     return this.userDetailService.findOne({ id });;
   }
 
-  update(updateUserDetailDto: UpdateUserDetailDto): Observable<string> {
+  async update(updateUserDetailDto: UpdateUserDetailDto) {
     return this.userDetailService.update(updateUserDetailDto);
   }
 
-  remove(id: number): Observable<string> {
+  async remove(id: number) {
     return this.userDetailService.remove({ id });
   }
 }

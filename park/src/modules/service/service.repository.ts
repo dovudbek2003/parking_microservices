@@ -13,7 +13,7 @@ export class ServiceRepository implements IServiceRepository {
 
     // READ
     async findAll(): Promise<Service[]> {
-        return this.repository.find({ relations: ['park', 'tariff'] })
+        return this.repository.find()
     }
     async findOne(id: number): Promise<Service> {
         return this.repository.findOneBy({ id })
