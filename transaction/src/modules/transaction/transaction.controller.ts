@@ -30,20 +30,6 @@ export class TransactionController {
     return this.transactionService.findOne(id);
   }
 
-  @GrpcMethod('TransactionService', 'Update')
-  async update(updateTransactionDto: UpdateTransactionDto) {
-    let foundShotCreatId = null;
-    let foundShotDebitId = null;
-    if (updateTransactionDto.shotCreditId) {
-      foundShotCreatId = await this.shotService._findByUserId(updateTransactionDto.shotCreditId)
-    }
-
-    if (updateTransactionDto.shotDebitId) {
-      foundShotDebitId = await this.shotService._findByUserId(updateTransactionDto.shotDebitId)
-    }
-    return this.transactionService.update(updateTransactionDto.id, updateTransactionDto, foundShotDebitId, foundShotDebitId);
-  }
-
   @GrpcMethod('TransactionService', 'Remove')
   async remove({ id }: { id: number }) {
     return this.transactionService.remove(id);

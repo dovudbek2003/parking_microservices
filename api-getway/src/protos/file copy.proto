@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package file;
+
+service FileService {
+  rpc Create (CreateFileDto) returns (ResData) {}
+}
+
+message empty {
+}
+
+message CreateFileDto {
+    string url = 2;
+    string mimetype = 4;
+    int32 size = 8;
+}
+
+message RepeatedFile {
+  repeated File files = 1;
+}
+
+message ResData {
+  string message = 1;
+  int32 statusCode = 2;
+  File data = 3;
+  string error = 4;
+}
+
+message ResDataFindAll {
+  string message = 1;
+  int32 statusCode = 2;
+  RepeatedFile data = 3;
+  string error = 4;
+}
+
+message File {
+  int32 id = 1;
+  string url = 2;
+  string mimetype  = 3;
+  string size  = 4;
+  string createdAt = 6;
+  string lastEditedAt = 7;
+}

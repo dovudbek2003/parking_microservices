@@ -21,6 +21,9 @@ export class ParkController {
     private readonly userService: UserService
   ) { }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.OWNER)
   @Post()
   async create(@Body() createParkDto: CreateParkDto) {
     if (createParkDto.owner || createParkDto.owner === 0) {
@@ -30,9 +33,7 @@ export class ParkController {
 
     return this.parkService.create(createParkDto);
   }
-  // @ApiBearerAuth()
-  // @UseGuards(JwtAuthGuard, RolesGuard)
-  // @Roles(Role.ADMIN)
+
   @UseInterceptors(CacheInterceptor)
   @CacheKey(Redis.ALL_PARKS)
   @CacheTTL(0)
@@ -46,6 +47,9 @@ export class ParkController {
     return this.parkService.findOne(+id);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.OWNER)
   @Put(':id')
   async update(@Param('id') id: string, @Body() updateParkDto: UpdateParkDto) {
     if (updateParkDto.owner || updateParkDto.owner === 0) {
@@ -55,6 +59,9 @@ export class ParkController {
     return this.parkService.update({ ...updateParkDto, id: +id });
   }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.OWNER)
   @Delete(':id')
   async remove(@Param('id') id: string) {
     return this.parkService.remove(+id);

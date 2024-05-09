@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { FileService } from './file.service';
-import { FileController } from './file.controller';
+import { FileServiceService } from './file-service.service';
+import { FileServiceController } from './file-service.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { FILE_PACKAGE } from 'src/common/const/servers';
 import { join } from 'path';
@@ -17,10 +17,10 @@ import { config } from 'src/common/config/config';
           protoPath: join(__dirname, '..', '..', '..', 'src', 'protos', 'file.proto'),
           url: `localhost:${config.filePort}`
         },
-      },
+      }
     ]),
   ],
-  controllers: [FileController],
-  providers: [FileService],
+  controllers: [FileServiceController],
+  providers: [FileServiceService],
 })
-export class FileModule {}
+export class FileServiceModule {}

@@ -49,12 +49,6 @@ export class TransactionService implements ITransactionService {
     return new ResponseData<TransactionEntity>('findOne', 200, transaction)
   }
 
-  // UPDATE
-  async update(id: number, updateTransactionDto: UpdateTransactionDto, foundShotCreatidByUserId: Shot | null, foundShotDebitId: Shot | null): Promise<ResponseData<TransactionEntity>> {
-    // const { data: foundTransaction } = await this.findOne(id)
-    // const remainingAmount = foundShotCreatidByUserId.amount - updateTransactionDto.amount;
-    throw new Error('Method not implemented.');
-  }
 
   // DELETE
   async remove(id: number): Promise<ResponseData<TransactionEntity>> {

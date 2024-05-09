@@ -8,6 +8,5 @@ export interface ITransactionService {
     create(createTransactionDto: CreateTransactionDto, foundShotCreatidByUserId: Shot, foundShotDebitId: Shot): Promise<ResponseData<TransactionEntity>>
     findAll(): Promise<ResponseData<Array<TransactionEntity>>>
     findOne(id: number): Promise<ResponseData<TransactionEntity>>
-    update(id: number, updateTransactionDto: UpdateTransactionDto, foundShotCreatidByUserId: Shot | null, foundShotDebitId: Shot | null): Promise<ResponseData<TransactionEntity>>
     remove(id: number): Promise<ResponseData<TransactionEntity>>
 }

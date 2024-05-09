@@ -17,7 +17,7 @@ export class TransactionController {
 
   @Post()
   async create(@Body() createTransactionDto: CreateTransactionDto) {
-    
+
     return this.transactionService.create(createTransactionDto);
   }
 
@@ -29,11 +29,6 @@ export class TransactionController {
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return this.transactionService.findOne(+id);
-  }
-
-  @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateTransactionDto: UpdateTransactionDto) {
-    return this.transactionService.update({ ...updateTransactionDto, id: +id });
   }
 
   @Delete(':id')

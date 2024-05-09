@@ -2,7 +2,7 @@ import { MulterOptions } from "@nestjs/platform-express/multer/interfaces/multer
 import { Request } from "express";
 import { existsSync, mkdirSync } from "fs";
 import { diskStorage } from "multer";
-import { FileBadRequest } from "../modules/file/exception/file.exception";
+import { FileBadRequest } from "src/modules/file-service/exception/file.exception";
 
 export const fileOption: MulterOptions = {
     storage: diskStorage({

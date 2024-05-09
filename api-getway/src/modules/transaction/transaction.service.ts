@@ -29,10 +29,6 @@ export class TransactionService {
     return this.transactionService.findOne({ id });
   }
 
-  async update(updateShotDto: UpdateTransactionDto) {
-    return this.transactionService.update(updateShotDto);
-  }
-
   async remove(id: number) {
     return this.transactionService.remove({ id });
   }

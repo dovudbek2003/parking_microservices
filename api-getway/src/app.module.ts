@@ -9,10 +9,10 @@ import { UserDetailModule } from './modules/user-detail/user-detail.module';
 import { UserTariffModule } from './modules/user-tariff/user-tariff.module';
 import { ShotModule } from './modules/shot/shot.module';
 import { TransactionModule } from './modules/transaction/transaction.module';
-import { FileModule } from './modules/file/file.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { CacheModule } from '@nestjs/cache-manager';
 import { redisStore } from 'cache-manager-redis-yet';
+import { FileServiceModule } from './modules/file-service/file-service.module';
 
 @Module({
   imports: [
@@ -38,7 +38,7 @@ import { redisStore } from 'cache-manager-redis-yet';
     ServiceModule,
     ShotModule,
     TransactionModule,
-    FileModule,
+    FileServiceModule,
   ]
 })
 export class AppModule { }
